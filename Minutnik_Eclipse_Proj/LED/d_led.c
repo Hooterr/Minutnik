@@ -1,20 +1,11 @@
-/*
- * d_led.c
- *
- *  Created on: 2010-03-30
- *       Autor: Miros³aw Kardaœ
- */
-#include <avr/io.h>			// do³¹czenie g³ównego systemowego  pliku nag³ówkowego
-#include <avr/interrupt.h>	// do³¹czenie pl. nag³ówkowego potrzebnego do obs³. przerwañ
-#include <avr/pgmspace.h>	// do³¹czenie pl. nag³ówkowego potrzebnego do odczytu
-							// danych zawartych w pamiêci programu FLASH
+#include <avr/io.h>
+#include <avr/interrupt.h>
+#include <avr/pgmspace.h>
 
-#include "d_led.h"			// do³¹czenie naszego pliku nag³ówkowego
-							// w nim znajduj¹ siê potrzebne tu m.in. definicje preprocesora
 
-// definicje zmiennych globalnych przechowuj¹cych cyfry do wyœwietlania
-// volatile – poniewa¿ bêd¹ wykorzystywane do odczytu i zapisu zarówno w przerwaniu i programie
-// g³ównym. Trzeba wiêc wy³¹czyæ optymalizacjê dostêpu do nich. (zmienne ulotne)
+#include "d_led.h"
+
+//zmienne repezentuj¹ce kolejne cyfry wyœwietlacza
 volatile uint8_t cy1;
 volatile uint8_t cy2;
 volatile uint8_t cy3;
@@ -80,20 +71,19 @@ void d_led_off(void)
 }
 
 // ================= PROCEDURA OBS£UGI PRZERWANIA – COMPARE MATCH
-ISR(TIMER0_COMPA_vect)
+ISR(TIMER0_COMPA_vect) //multiplexowanie
 {
-	static uint8_t licznik=1;		// zmienna do prze³¹czania kolejno anod wyrwietlacza
+	static uint8_t licznik=1;
 
-	ANODY_PORT &= ~MASKA_ANODY;	// wygaszenie wszystkich wyœwietlaczy
+	ANODY_PORT &= ~MASKA_ANODY;
 
-	if(licznik==1) 		LED_DATA = (LED_DATA & (1<<2)) | (pgm_read_byte( &cyfry[cy4] ) & ~(1<<2));	// gdy zapalony wyœw.1 podaj stan zmiennej c1
-	else if(licznik==2) LED_DATA = (LED_DATA & (1<<2)) | (pgm_read_byte( &cyfry[cy3] ) & ~(1<<2));	// gdy zapalony wyœw.2 podaj stan zmiennej c2
-	else if(licznik==4) LED_DATA = (LED_DATA & (1<<2)) | (pgm_read_byte( &cyfry[cy2] ) & ~(1<<2));	// gdy zapalony wyœw.3 podaj stan zmiennej c3
-	else if(licznik==8) LED_DATA = (LED_DATA & (1<<2)) | (pgm_read_byte( &cyfry[cy1] ) & ~(1<<2));	// gdy zapalony wyœw.4 podaj stan zmiennej c4
+	if(licznik==1) 		LED_DATA = (LED_DATA & (1<<2)) | (pgm_read_byte( &cyfry[cy4] ) & ~(1<<2));
+	else if(licznik==2) LED_DATA = (LED_DATA & (1<<2)) | (pgm_read_byte( &cyfry[cy3] ) & ~(1<<2));
+	else if(licznik==4) LED_DATA = (LED_DATA & (1<<2)) | (pgm_read_byte( &cyfry[cy2] ) & ~(1<<2));
+	else if(licznik==8) LED_DATA = (LED_DATA & (1<<2)) | (pgm_read_byte( &cyfry[cy1] ) & ~(1<<2));
 
-	ANODY_PORT = (ANODY_PORT & MASKA_ANODY) | ~(licznik & MASKA_ANODY);			// cykliczne prze³¹czanie kolejnej anody w ka¿dym przerwaniu
-	// operacje cyklicznego przesuwania bitu zapalaj¹cego anody w zmiennej licznik
-	licznik <<= 1;					// przesuniêcie zawartoœci bitów licznika o 1 w lewo
-	if(licznik>8) licznik = 1;		// jeœli licznik wiêkszy ni¿ 8 to ustaw na 1
+	ANODY_PORT = (ANODY_PORT & MASKA_ANODY) | ~(licznik & MASKA_ANODY);
+	licznik <<= 1;
+	if(licznik>8) licznik = 1;
 }
 

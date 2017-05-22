@@ -3,25 +3,25 @@ Archive member included because of file (symbol)
 c:/program files (x86)/atmel/avr tools/avr toolchain/bin/../lib/gcc/avr/4.7.2/avr5\libgcc.a(_exit.o)
                               c:/program files (x86)/atmel/avr tools/avr toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr5/crtm328p.o (exit)
 c:/program files (x86)/atmel/avr tools/avr toolchain/bin/../lib/gcc/avr/4.7.2/avr5\libgcc.a(_copy_data.o)
-                              ./d_led.o (__do_copy_data)
+                              ./LED/d_led.o (__do_copy_data)
 c:/program files (x86)/atmel/avr tools/avr toolchain/bin/../lib/gcc/avr/4.7.2/avr5\libgcc.a(_clear_bss.o)
-                              ./ENCODER/encoder.o (__do_clear_bss)
+                              ./LED/d_led.o (__do_clear_bss)
 
 Allocating common symbols
 Common symbol       size              file
 
-cy4                 0x1               ./d_led.o
+cy4                 0x1               ./LED/d_led.o
 Timer3              0x2               ./main.o
 Timer4              0x2               ./main.o
 enco_dir            0x1               ./ENCODER/encoder.o
 k2                  0x1               ./main.o
-cy1                 0x1               ./d_led.o
+cy1                 0x1               ./LED/d_led.o
 enco_flag           0x1               ./ENCODER/encoder.o
 Timer2              0x2               ./main.o
-cy2                 0x1               ./d_led.o
+cy2                 0x1               ./LED/d_led.o
 k1                  0x1               ./main.o
 Timer1              0x2               ./main.o
-cy3                 0x1               ./d_led.o
+cy3                 0x1               ./LED/d_led.o
 enco_cnt            0x2               ./ENCODER/encoder.o
 
 Memory Configuration
@@ -40,8 +40,8 @@ Linker script and memory map
 
 Address of section .data set to 0x800100
 LOAD c:/program files (x86)/atmel/avr tools/avr toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr5/crtm328p.o
+LOAD ./LED/d_led.o
 LOAD ./ENCODER/encoder.o
-LOAD ./d_led.o
 LOAD ./main.o
 LOAD c:/program files (x86)/atmel/avr tools/avr toolchain/bin/../lib/gcc/avr/4.7.2/avr5\libgcc.a
 LOAD c:/program files (x86)/atmel/avr tools/avr toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr5\libc.a
@@ -145,12 +145,12 @@ LOAD c:/program files (x86)/atmel/avr tools/avr toolchain/bin/../lib/gcc/avr/4.7
  *(.vectors)
  *(.progmem.gcc*)
  *(.progmem*)
- .progmem.data.enc_tab
-                0x00000068       0x1c ./ENCODER/encoder.o
-                0x00000068                enc_tab
  .progmem.data.cyfry
-                0x00000084       0x1e ./d_led.o
-                0x00000084                cyfry
+                0x00000068       0x1e ./LED/d_led.o
+                0x00000068                cyfry
+ .progmem.data.enc_tab
+                0x00000086       0x1c ./ENCODER/encoder.o
+                0x00000086                enc_tab
                 0x000000a2                . = ALIGN (0x2)
                 0x000000a2                __trampolines_start = .
  *(.trampolines)
@@ -222,47 +222,47 @@ LOAD c:/program files (x86)/atmel/avr tools/avr toolchain/bin/../lib/gcc/avr/4.7
                 0x000000dc                __vector_16
                 0x000000dc                __vector_18
                 0x000000dc                __vector_20
+ .text          0x000000e0        0x0 ./LED/d_led.o
  .text          0x000000e0        0x0 ./ENCODER/encoder.o
- .text          0x000000e0        0x0 ./d_led.o
  .text          0x000000e0        0x0 ./main.o
  .text          0x000000e0        0x0 c:/program files (x86)/atmel/avr tools/avr toolchain/bin/../lib/gcc/avr/4.7.2/avr5\libgcc.a(_exit.o)
  .text          0x000000e0        0x0 c:/program files (x86)/atmel/avr tools/avr toolchain/bin/../lib/gcc/avr/4.7.2/avr5\libgcc.a(_copy_data.o)
  .text          0x000000e0        0x0 c:/program files (x86)/atmel/avr tools/avr toolchain/bin/../lib/gcc/avr/4.7.2/avr5\libgcc.a(_clear_bss.o)
                 0x000000e0                . = ALIGN (0x2)
  *(.text.*)
- .text.register_enc_event_sw_callback
-                0x000000e0        0xa ./ENCODER/encoder.o
-                0x000000e0                register_enc_event_sw_callback
- .text.register_enc_event_callback
-                0x000000ea        0xa ./ENCODER/encoder.o
-                0x000000ea                register_enc_event_callback
- .text.get_encoder
-                0x000000f4       0x12 ./ENCODER/encoder.o
-                0x000000f4                get_encoder
- .text.set_encoder
-                0x00000106       0x10 ./ENCODER/encoder.o
-                0x00000106                set_encoder
- .text.encoder_proc
-                0x00000116       0x58 ./ENCODER/encoder.o
-                0x00000116                encoder_proc
- .text.mk_encoder_init
-                0x0000016e        0xa ./ENCODER/encoder.o
-                0x0000016e                mk_encoder_init
- .text.ENCODER_EVENT
-                0x00000178       0x20 ./ENCODER/encoder.o
-                0x00000178                ENCODER_EVENT
  .text.d_led_init
-                0x00000198       0x2e ./d_led.o
-                0x00000198                d_led_init
+                0x000000e0       0x2e ./LED/d_led.o
+                0x000000e0                d_led_init
  .text.d_led_on
-                0x000001c6        0xc ./d_led.o
-                0x000001c6                d_led_on
+                0x0000010e        0xc ./LED/d_led.o
+                0x0000010e                d_led_on
  .text.d_led_off
-                0x000001d2       0x12 ./d_led.o
-                0x000001d2                d_led_off
+                0x0000011a       0x12 ./LED/d_led.o
+                0x0000011a                d_led_off
  .text.__vector_14
-                0x000001e4       0x92 ./d_led.o
-                0x000001e4                __vector_14
+                0x0000012c       0x92 ./LED/d_led.o
+                0x0000012c                __vector_14
+ .text.register_enc_event_sw_callback
+                0x000001be        0xa ./ENCODER/encoder.o
+                0x000001be                register_enc_event_sw_callback
+ .text.register_enc_event_callback
+                0x000001c8        0xa ./ENCODER/encoder.o
+                0x000001c8                register_enc_event_callback
+ .text.get_encoder
+                0x000001d2       0x12 ./ENCODER/encoder.o
+                0x000001d2                get_encoder
+ .text.set_encoder
+                0x000001e4       0x10 ./ENCODER/encoder.o
+                0x000001e4                set_encoder
+ .text.encoder_proc
+                0x000001f4       0x58 ./ENCODER/encoder.o
+                0x000001f4                encoder_proc
+ .text.mk_encoder_init
+                0x0000024c        0xa ./ENCODER/encoder.o
+                0x0000024c                mk_encoder_init
+ .text.ENCODER_EVENT
+                0x00000256       0x20 ./ENCODER/encoder.o
+                0x00000256                ENCODER_EVENT
  .text.long_click
                 0x00000276       0x4a ./main.o
                 0x00000276                long_click
@@ -365,15 +365,15 @@ LOAD c:/program files (x86)/atmel/avr tools/avr toolchain/bin/../lib/gcc/avr/4.7
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800100        0x0 c:/program files (x86)/atmel/avr tools/avr toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr5/crtm328p.o
+ .data          0x00800100        0x0 ./LED/d_led.o
  .data          0x00800100        0x0 ./ENCODER/encoder.o
- .data          0x00800100        0x0 ./d_led.o
  .data          0x00800100        0x0 ./main.o
  .data          0x00800100        0x0 c:/program files (x86)/atmel/avr tools/avr toolchain/bin/../lib/gcc/avr/4.7.2/avr5\libgcc.a(_exit.o)
  .data          0x00800100        0x0 c:/program files (x86)/atmel/avr tools/avr toolchain/bin/../lib/gcc/avr/4.7.2/avr5\libgcc.a(_copy_data.o)
  .data          0x00800100        0x0 c:/program files (x86)/atmel/avr tools/avr toolchain/bin/../lib/gcc/avr/4.7.2/avr5\libgcc.a(_clear_bss.o)
  *(.data*)
  .data.licznik.1541
-                0x00800100        0x1 ./d_led.o
+                0x00800100        0x1 ./LED/d_led.o
  .data.operation
                 0x00800101        0x1 ./main.o
                 0x00800101                operation
@@ -388,8 +388,8 @@ LOAD c:/program files (x86)/atmel/avr tools/avr toolchain/bin/../lib/gcc/avr/4.7
                 0x00800102                PROVIDE (__bss_start, .)
  *(.bss)
  .bss           0x00800102        0x0 c:/program files (x86)/atmel/avr tools/avr toolchain/bin/../lib/gcc/avr/4.7.2/../../../../avr/lib/avr5/crtm328p.o
+ .bss           0x00800102        0x0 ./LED/d_led.o
  .bss           0x00800102        0x0 ./ENCODER/encoder.o
- .bss           0x00800102        0x0 ./d_led.o
  .bss           0x00800102        0x0 ./main.o
  .bss           0x00800102        0x0 c:/program files (x86)/atmel/avr tools/avr toolchain/bin/../lib/gcc/avr/4.7.2/avr5\libgcc.a(_exit.o)
  .bss           0x00800102        0x0 c:/program files (x86)/atmel/avr tools/avr toolchain/bin/../lib/gcc/avr/4.7.2/avr5\libgcc.a(_copy_data.o)
@@ -404,15 +404,15 @@ LOAD c:/program files (x86)/atmel/avr tools/avr toolchain/bin/../lib/gcc/avr/4.7
  .bss.i.1557    0x00800107        0x1 ./main.o
  .bss.pom.1568  0x00800108        0x1 ./main.o
  *(COMMON)
- COMMON         0x00800109        0x4 ./ENCODER/encoder.o
-                0x00800109                enco_dir
-                0x0080010a                enco_flag
-                0x0080010b                enco_cnt
- COMMON         0x0080010d        0x4 ./d_led.o
-                0x0080010d                cy4
-                0x0080010e                cy1
-                0x0080010f                cy2
-                0x00800110                cy3
+ COMMON         0x00800109        0x4 ./LED/d_led.o
+                0x00800109                cy4
+                0x0080010a                cy1
+                0x0080010b                cy2
+                0x0080010c                cy3
+ COMMON         0x0080010d        0x4 ./ENCODER/encoder.o
+                0x0080010d                enco_dir
+                0x0080010e                enco_flag
+                0x0080010f                enco_cnt
  COMMON         0x00800111        0xa ./main.o
                 0x00800111                Timer3
                 0x00800113                Timer4
@@ -472,9 +472,9 @@ LOAD c:/program files (x86)/atmel/avr tools/avr toolchain/bin/../lib/gcc/avr/4.7
 
 .comment        0x00000000       0x2f
  *(.comment)
- .comment       0x00000000       0x2f ./ENCODER/encoder.o
+ .comment       0x00000000       0x2f ./LED/d_led.o
                                  0x30 (size before relaxing)
- .comment       0x00000000       0x30 ./d_led.o
+ .comment       0x00000000       0x30 ./ENCODER/encoder.o
  .comment       0x00000000       0x30 ./main.o
 
 .debug

@@ -1,5 +1,7 @@
-main.o: ../main.c ../d_led.h ../ENCODER/encoder.h
+main.o: ../main.c ../LED/d_led.h ../ENCODER/encoder.h ../makra.h
 
-../d_led.h:
+../LED/d_led.h:
 
 ../ENCODER/encoder.h:
+
+../makra.h:

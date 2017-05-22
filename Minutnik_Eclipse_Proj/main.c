@@ -1,42 +1,41 @@
 /*
  * main.c
  *
- *  Created on: 2010-03-30
- *       Autor: Maksymilian Lac
+ *  Created on: 2017-03-30
+ *       Autor: Maksymilian Lach
  */
 
+#include <avr/io.h>		    // do³¹czenie g³ównego systemowego  pliku nag³ówkowego
+#include <avr/interrupt.h>  // systemowa biblioteka obs³uguj¹ca przerwania
+#include <util/delay.h>		// systemowa biblioteka obs³uguj¹ca opóŸnienia
+#include <avr/sleep.h>		// systemowa biblioteka obs³uguj¹ca tryp power down
 
-#include <avr/io.h>		// do³¹czenie g³ównego systemowego  pliku nag³ówkowego
-#include <avr/interrupt.h>
-#include <util/delay.h>
-#include <avr/sleep.h>
 
-
-#include "d_led.h"		// do³¹czenie naszego pliku nag³ówkowego (obs³uga LED)
-#include "ENCODER/encoder.h"
-#define BUZZER_PIN (1<<PB3)
-#define BEEP PORTB |= (1<<PB3)
-#define NOBEEP PORTB &= ~(1<<PB3)
+#include "LED/d_led.h"		 // biblioteka do obs³ugi wyœwietlacza
+#include "ENCODER/encoder.h" // biblioteka do obs³ugi enkodera
+#include "makra.h"			 // makra programowe
 
 
 volatile uint16_t Timer1, Timer2, Timer3, Timer4;	/* timery programowe 100Hz */
 
-void enco(void);
-void long_click(void);
-void fast_click(void);
-void cutDown(void);
-void Beebing(void);
-void SecondsIncrement(void);
-void MinutesIncrement(void);
-void SecondsDecrement(void);
-void MinutesDecrement(void);
-void StartUp(void);
+void enco(void);				//callback biblioteki enkodera
+void long_click(void);			//callback d³ugie przytrzymania przycisku
+void fast_click(void);			//callback szybkiego przyciœniêca przycisku
+void cutDown(void);				//funkcja odliczaj¹ca
+void Beebing(void);				//funkcja sygnalizuj¹ca up³yniêcie czasu
+void SecondsIncrement(void);	//inkrementacja sekund
+void MinutesIncrement(void);	//inkremantacje minut
+void SecondsDecrement(void);	//dekrementacja sekund
+void MinutesDecrement(void);	//dekrementacja minut
+void StartUp(void);				//animacja startowa
+
+//funkcja obs³ugujaca przyciski
 void SuperDebounce(uint8_t * key_state, volatile uint8_t *KPIN,
 		uint8_t key_mask, uint16_t rep_time, uint16_t rep_wait,
 		void (*push_proc)(void), void (*rep_proc)(void) );
 uint8_t k1, k2;
 
-enum
+enum //enum opisuj¹cy stan urz¹dzenia
 {
 	cutdown,
 	settingMinutes,
@@ -51,12 +50,10 @@ int main(void)
 	// ****** inicjalizacja *********
 	d_led_init();   		// inicjalizacja wyœwietlacza multipleksowanego
 	mk_encoder_init();
-	register_enc_event_callback(enco);
-	// testowa inicjalizacja zmiennych oraz liczb maj¹cych siê wyœwietlaæ na wyrw. LED
-			// w³¹czenie globalnego zezwolenia na przerwania
-	DDRB |= BUZZER_PIN;// | (1<<PB5);
-	DDRB &=  ~(1<<PB2);
-	PORTB |= (1<<PB2);
+	register_enc_event_callback(enco); // rejestracja funkcji callback biblioteki do obs³ugi enkodera
+	DDRB |= BUZZER_PIN;
+	DDRB &=  ~SWITCH_PIN;
+	PORTB |= SWITCH_PIN;
 
 
 	TCCR2A 	|= (1<<WGM21);			// tryb pracy CTC
@@ -64,8 +61,8 @@ int main(void)
 	OCR2A 	= 107;					// przerwanie porównania co 10ms (100Hz)
 	TIMSK2	|= (1<<OCIE2A);			// Odblokowanie przerwania CompareMatch
 
-	PCICR |= (1<<PCIE0);
-	PCIFR |= (1<<PCIF0);
+	PCICR |= (1<<PCIE0); 			//przerwanie zewnêtrzene PCINT, s³u¿ace do wybudzenia procesora,
+	PCIFR |= (1<<PCIF0);			//reakcje na dowolne zbocze
 	PCMSK0 &= ~(1<<PCINT5);
 
 	SMCR |= (1<<SM1);
@@ -81,31 +78,29 @@ int main(void)
 	cy2 = 5;
 	cy3 = 0;
 	cy4 = 0;
-	//
-	//while(1);
-	//
 
-	Timer4 = 3000;
-	while(1)
+	Timer4 = 3000; //odliczanie czasu do usypienia
+
+	while(1) // pêtla g³ówna
 	{
 		ENCODER_EVENT();
-		SuperDebounce(&k1, &PINB, (1<<PB2), 1, 25, fast_click, long_click);
-		if( !Timer2 )
+		SuperDebounce(&k1, &PINB, SWITCH_PIN, 1, 25, fast_click, long_click);
+		if(!Timer2)
 		{
-			Timer2=50;
+			Timer2=50; // co 500ms migamy dwukropkiem
 			PORTD ^= (1<<PD2);
-			if(operation == cutdown)
+			if(operation == cutdown) //odliczanie
 			{
 				cutDown();
 			}
 		}
-		if( !Timer3 && operation == beeping)
+		if(!Timer3 && operation == beeping)
 		{
 			Beebing();
 		}
 		if(!Timer4 && operation != cutdown)
 		{
-			TIMSK2	&=  ~(1<<OCIE2A);
+			TIMSK2 &= ~(1<<OCIE2A); //uœpienie procesora
 			d_led_off();
 			PCMSK0 |= (1<<PCINT5);
 			sleep_mode();
@@ -209,7 +204,7 @@ void long_click()
 }
 
 
-void enco (void)
+void enco(void)
 {
 	Timer4 = 3000;
 	PORTB |= BUZZER_PIN;
@@ -405,7 +400,7 @@ void SuperDebounce(uint8_t * key_state, volatile uint8_t *KPIN,
 	if( *key_state>=3 && !key_press ) *key_state = idle;
 }
 
-void StartUp(void)
+void StartUp(void) //animacja przy starcie
 {
 #define D_TIME1 80
 #define D_TIME2 80
@@ -517,7 +512,7 @@ void StartUp(void)
 }
 
 
-ISR(PCINT0_vect)
+ISR(PCINT0_vect) //procedura obs³ugi przerwania PCINT wybudzj¹cege procesor
 {
 	sleep_disable();
 	d_led_on();
@@ -526,7 +521,7 @@ ISR(PCINT0_vect)
 	Timer4 = 3000;
 }
 
-ISR(TIMER2_COMPA_vect)
+ISR(TIMER2_COMPA_vect) // timery programowe
 {
 	uint16_t n;
 

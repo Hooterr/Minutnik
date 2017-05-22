@@ -8,6 +8,7 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include LED/subdir.mk
 -include ENCODER/subdir.mk
 -include Debug/subdir.mk
 -include subdir.mk

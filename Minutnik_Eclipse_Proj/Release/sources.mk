@@ -23,5 +23,6 @@ C_DEPS :=
 SUBDIRS := \
 Debug \
 ENCODER \
+LED \
 . \
 

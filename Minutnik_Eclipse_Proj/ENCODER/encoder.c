@@ -1,9 +1,3 @@
-/*
- * encoder.c
- *
- *  Created on: 4 wrz 2016
- *      Author: maxus
- */
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <avr/pgmspace.h>

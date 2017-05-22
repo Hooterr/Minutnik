@@ -1,10 +1,3 @@
-/*
- * encoder.h
- *
- *  Created on: 4 wrz 2016
- *      Author: maxus
- */
-
 #ifndef ENCODER_H_
 #define ENCODER_H_
 
@@ -60,6 +53,7 @@ extern volatile int enco_cnt;
 extern volatile uint8_t enco_dir;
 
 //********************************************************
+//funkcje biblioteczne
 void mk_encoder_init ( void );
 void ENCODER_EVENT( void );
 
