@@ -2,7 +2,7 @@
  * main.c
  *
  *  Created on: 2010-03-30
- *       Autor: Maksymilian Lach
+ *       Autor: Maksymilian Lac
  */
 
 
