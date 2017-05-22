@@ -1,0 +1,430 @@
+
+03_Multi_LED.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000294  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000002  00800060  00000294  00000328  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000004  00800062  00800062  0000032a  2**0
+                  ALLOC
+  3 .stab         000011c4  00000000  00000000  0000032c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  4 .stabstr      00000f90  00000000  00000000  000014f0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_aranges 00000080  00000000  00000000  00002480  2**3
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   00000374  00000000  00000000  00002500  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 00000050  00000000  00000000  00002874  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   00000241  00000000  00000000  000028c4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 32 00 	jmp	0x64	; 0x64 <__ctors_end>
+   4:	0c 94 4f 00 	jmp	0x9e	; 0x9e <__bad_interrupt>
+   8:	0c 94 4f 00 	jmp	0x9e	; 0x9e <__bad_interrupt>
+   c:	0c 94 4f 00 	jmp	0x9e	; 0x9e <__bad_interrupt>
+  10:	0c 94 4f 00 	jmp	0x9e	; 0x9e <__bad_interrupt>
+  14:	0c 94 4f 00 	jmp	0x9e	; 0x9e <__bad_interrupt>
+  18:	0c 94 4f 00 	jmp	0x9e	; 0x9e <__bad_interrupt>
+  1c:	0c 94 4f 00 	jmp	0x9e	; 0x9e <__bad_interrupt>
+  20:	0c 94 4f 00 	jmp	0x9e	; 0x9e <__bad_interrupt>
+  24:	0c 94 4f 00 	jmp	0x9e	; 0x9e <__bad_interrupt>
+  28:	0c 94 66 00 	jmp	0xcc	; 0xcc <__vector_10>
+  2c:	0c 94 4f 00 	jmp	0x9e	; 0x9e <__bad_interrupt>
+  30:	0c 94 4f 00 	jmp	0x9e	; 0x9e <__bad_interrupt>
+  34:	0c 94 4f 00 	jmp	0x9e	; 0x9e <__bad_interrupt>
+  38:	0c 94 4f 00 	jmp	0x9e	; 0x9e <__bad_interrupt>
+  3c:	0c 94 4f 00 	jmp	0x9e	; 0x9e <__bad_interrupt>
+  40:	0c 94 4f 00 	jmp	0x9e	; 0x9e <__bad_interrupt>
+  44:	0c 94 4f 00 	jmp	0x9e	; 0x9e <__bad_interrupt>
+  48:	0c 94 4f 00 	jmp	0x9e	; 0x9e <__bad_interrupt>
+  4c:	0c 94 4f 00 	jmp	0x9e	; 0x9e <__bad_interrupt>
+  50:	0c 94 4f 00 	jmp	0x9e	; 0x9e <__bad_interrupt>
+
+00000054 <cyfry>:
+  54:	c0 f9 a4 b0 99 92 82 d8 80 90 ff 00 00 00 00 00     ................
+
+00000064 <__ctors_end>:
+  64:	11 24       	eor	r1, r1
+  66:	1f be       	out	0x3f, r1	; 63
+  68:	cf e5       	ldi	r28, 0x5F	; 95
+  6a:	d8 e0       	ldi	r29, 0x08	; 8
+  6c:	de bf       	out	0x3e, r29	; 62
+  6e:	cd bf       	out	0x3d, r28	; 61
+
+00000070 <__do_copy_data>:
+  70:	10 e0       	ldi	r17, 0x00	; 0
+  72:	a0 e6       	ldi	r26, 0x60	; 96
+  74:	b0 e0       	ldi	r27, 0x00	; 0
+  76:	e4 e9       	ldi	r30, 0x94	; 148
+  78:	f2 e0       	ldi	r31, 0x02	; 2
+  7a:	02 c0       	rjmp	.+4      	; 0x80 <__do_copy_data+0x10>
+  7c:	05 90       	lpm	r0, Z+
+  7e:	0d 92       	st	X+, r0
+  80:	a2 36       	cpi	r26, 0x62	; 98
+  82:	b1 07       	cpc	r27, r17
+  84:	d9 f7       	brne	.-10     	; 0x7c <__do_copy_data+0xc>
+
+00000086 <__do_clear_bss>:
+  86:	10 e0       	ldi	r17, 0x00	; 0
+  88:	a2 e6       	ldi	r26, 0x62	; 98
+  8a:	b0 e0       	ldi	r27, 0x00	; 0
+  8c:	01 c0       	rjmp	.+2      	; 0x90 <.do_clear_bss_start>
+
+0000008e <.do_clear_bss_loop>:
+  8e:	1d 92       	st	X+, r1
+
+00000090 <.do_clear_bss_start>:
+  90:	a6 36       	cpi	r26, 0x66	; 102
+  92:	b1 07       	cpc	r27, r17
+  94:	e1 f7       	brne	.-8      	; 0x8e <.do_clear_bss_loop>
+  96:	0e 94 a9 00 	call	0x152	; 0x152 <main>
+  9a:	0c 94 48 01 	jmp	0x290	; 0x290 <_exit>
+
+0000009e <__bad_interrupt>:
+  9e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+000000a2 <d_led_init>:
+
+
+// ****** definicja funkcji inicjalizuj¹cej pracê z wyœwietlaczem multipleksowanym
+void d_led_init(void)
+{
+	LED_DATA_DIR = 0xFF;   					// wszystkie piny portu C jako WYJŒCIA(katody)
+  a2:	8f ef       	ldi	r24, 0xFF	; 255
+  a4:	84 bb       	out	0x14, r24	; 20
+	LED_DATA = 0xFF;						// wygaszenie wszystkich katod – stan wysoki
+  a6:	85 bb       	out	0x15, r24	; 21
+	ANODY_DIR |= CA1 | CA2 | CA3 | CA4;		// 4 piny portu A jako WYJŒCIA (anody wyœwietlaczy)
+  a8:	81 b3       	in	r24, 0x11	; 17
+  aa:	8f 60       	ori	r24, 0x0F	; 15
+  ac:	81 bb       	out	0x11, r24	; 17
+	ANODY_PORT |= CA1 | CA2 | CA3  | CA4;	// wygaszenie wszystkich wyœwietlaczy - anody
+  ae:	82 b3       	in	r24, 0x12	; 18
+  b0:	8f 60       	ori	r24, 0x0F	; 15
+  b2:	82 bb       	out	0x12, r24	; 18
+
+	// ustawienie TIMER0
+	TCCR0 |= (1<<WGM01);				// tryb CTC
+  b4:	83 b7       	in	r24, 0x33	; 51
+  b6:	88 60       	ori	r24, 0x08	; 8
+  b8:	83 bf       	out	0x33, r24	; 51
+	TCCR0 |= (1<<CS02)|(1<<CS00);		// preskaler = 1024
+  ba:	83 b7       	in	r24, 0x33	; 51
+  bc:	85 60       	ori	r24, 0x05	; 5
+  be:	83 bf       	out	0x33, r24	; 51
+	OCR0 = 38;							// dodatkowy podzia³ przez 39 (rej. przepe³nienia)
+  c0:	86 e2       	ldi	r24, 0x26	; 38
+  c2:	8c bf       	out	0x3c, r24	; 60
+	TIMSK |= (1<<OCIE0);				// zezwolenie na przerwanie CompareMatch
+  c4:	89 b7       	in	r24, 0x39	; 57
+  c6:	82 60       	ori	r24, 0x02	; 2
+  c8:	89 bf       	out	0x39, r24	; 57
+}
+  ca:	08 95       	ret
+
+000000cc <__vector_10>:
+
+
+// ================= PROCEDURA OBS£UGI PRZERWANIA – COMPARE MATCH
+ISR(TIMER0_COMP_vect)
+{
+  cc:	1f 92       	push	r1
+  ce:	0f 92       	push	r0
+  d0:	0f b6       	in	r0, 0x3f	; 63
+  d2:	0f 92       	push	r0
+  d4:	11 24       	eor	r1, r1
+  d6:	2f 93       	push	r18
+  d8:	8f 93       	push	r24
+  da:	9f 93       	push	r25
+  dc:	ef 93       	push	r30
+  de:	ff 93       	push	r31
+	static uint8_t licznik=1;		// zmienna do prze³¹czania kolejno anod wyrwietlacza
+
+	ANODY_PORT = (ANODY_PORT & 0xF0);	// wygaszenie wszystkich wyœwietlaczy
+  e0:	82 b3       	in	r24, 0x12	; 18
+  e2:	80 7f       	andi	r24, 0xF0	; 240
+  e4:	82 bb       	out	0x12, r24	; 18
+
+
+	if(licznik==1) 		LED_DATA = pgm_read_byte( &cyfry[cy1] );	// gdy zapalony wyœw.1 podaj stan zmiennej c1
+  e6:	80 91 60 00 	lds	r24, 0x0060
+  ea:	81 30       	cpi	r24, 0x01	; 1
+  ec:	19 f4       	brne	.+6      	; 0xf4 <__vector_10+0x28>
+  ee:	e0 91 63 00 	lds	r30, 0x0063
+  f2:	0e c0       	rjmp	.+28     	; 0x110 <__vector_10+0x44>
+	else if(licznik==2) LED_DATA = pgm_read_byte( &cyfry[cy2] );	// gdy zapalony wyœw.2 podaj stan zmiennej c2
+  f4:	82 30       	cpi	r24, 0x02	; 2
+  f6:	19 f4       	brne	.+6      	; 0xfe <__vector_10+0x32>
+  f8:	e0 91 64 00 	lds	r30, 0x0064
+  fc:	09 c0       	rjmp	.+18     	; 0x110 <__vector_10+0x44>
+	else if(licznik==4) LED_DATA = pgm_read_byte( &cyfry[cy3] );	// gdy zapalony wyœw.3 podaj stan zmiennej c3
+  fe:	84 30       	cpi	r24, 0x04	; 4
+ 100:	19 f4       	brne	.+6      	; 0x108 <__vector_10+0x3c>
+ 102:	e0 91 65 00 	lds	r30, 0x0065
+ 106:	04 c0       	rjmp	.+8      	; 0x110 <__vector_10+0x44>
+	else if(licznik==8) LED_DATA = pgm_read_byte( &cyfry[cy4] );	// gdy zapalony wyœw.4 podaj stan zmiennej c4
+ 108:	88 30       	cpi	r24, 0x08	; 8
+ 10a:	39 f4       	brne	.+14     	; 0x11a <__vector_10+0x4e>
+ 10c:	e0 91 62 00 	lds	r30, 0x0062
+ 110:	f0 e0       	ldi	r31, 0x00	; 0
+ 112:	ec 5a       	subi	r30, 0xAC	; 172
+ 114:	ff 4f       	sbci	r31, 0xFF	; 255
+ 116:	e4 91       	lpm	r30, Z
+ 118:	e5 bb       	out	0x15, r30	; 21
+
+	ANODY_PORT = (ANODY_PORT & 0xF0) | (~licznik & 0x0F);			// cykliczne prze³¹czanie kolejnej anody w ka¿dym przerwaniu
+ 11a:	92 b3       	in	r25, 0x12	; 18
+ 11c:	20 91 60 00 	lds	r18, 0x0060
+ 120:	82 2f       	mov	r24, r18
+ 122:	80 95       	com	r24
+ 124:	8f 70       	andi	r24, 0x0F	; 15
+ 126:	90 7f       	andi	r25, 0xF0	; 240
+ 128:	89 2b       	or	r24, r25
+ 12a:	82 bb       	out	0x12, r24	; 18
+
+	// operacje cyklicznego przesuwania bitu zapalaj¹cego anody w zmiennej licznik
+	licznik <<= 1;					// przesuniêcie zawartoœci bitów licznika o 1 w lewo
+ 12c:	82 2f       	mov	r24, r18
+ 12e:	88 0f       	add	r24, r24
+ 130:	80 93 60 00 	sts	0x0060, r24
+	if(licznik>8) licznik = 1;		// jeœli licznik wiêkszy ni¿ 8 to ustaw na 1
+ 134:	89 30       	cpi	r24, 0x09	; 9
+ 136:	18 f0       	brcs	.+6      	; 0x13e <__vector_10+0x72>
+ 138:	81 e0       	ldi	r24, 0x01	; 1
+ 13a:	80 93 60 00 	sts	0x0060, r24
+}
+ 13e:	ff 91       	pop	r31
+ 140:	ef 91       	pop	r30
+ 142:	9f 91       	pop	r25
+ 144:	8f 91       	pop	r24
+ 146:	2f 91       	pop	r18
+ 148:	0f 90       	pop	r0
+ 14a:	0f be       	out	0x3f, r0	; 63
+ 14c:	0f 90       	pop	r0
+ 14e:	1f 90       	pop	r1
+ 150:	18 95       	reti
+
+00000152 <main>:
+#include "d_led.h"		// do³¹czenie naszego pliku nag³ówkowego (obs³uga LED)
+
+int main(void)
+{
+	// ****** inicjalizacja *********
+	d_led_init();   		// inicjalizacja wyœwietlacza multipleksowanego
+ 152:	0e 94 51 00 	call	0xa2	; 0xa2 <d_led_init>
+
+	// testowa inicjalizacja zmiennych oraz liczb maj¹cych siê wyœwietlaæ na wyrw. LED
+	cy1=NIC;
+ 156:	8a e0       	ldi	r24, 0x0A	; 10
+ 158:	80 93 63 00 	sts	0x0063, r24
+	cy2=4;
+ 15c:	94 e0       	ldi	r25, 0x04	; 4
+ 15e:	90 93 64 00 	sts	0x0064, r25
+	cy3=1;
+ 162:	91 e0       	ldi	r25, 0x01	; 1
+ 164:	90 93 65 00 	sts	0x0065, r25
+	cy4=NIC;
+ 168:	80 93 62 00 	sts	0x0062, r24
+
+	sei();			// w³¹czenie globalnego zezwolenia na przerwania
+ 16c:	78 94       	sei
+	//	{
+	//		PORTA ^= (1<<PA5);
+	//		_delay_ms(1000);
+	//	}
+
+	uint16_t licznik=6000;
+ 16e:	e0 e7       	ldi	r30, 0x70	; 112
+ 170:	f7 e1       	ldi	r31, 0x17	; 23
+		//**********************  pêtla g³ówna
+		while(1)
+		{
+			licznik--;
+
+			d1=licznik/1000;
+ 172:	88 ee       	ldi	r24, 0xE8	; 232
+ 174:	a8 2e       	mov	r10, r24
+ 176:	83 e0       	ldi	r24, 0x03	; 3
+ 178:	b8 2e       	mov	r11, r24
+			if(d1) cy1=d1; else cy1=NIC;
+ 17a:	0a e0       	ldi	r16, 0x0A	; 10
+			d2=(licznik-(d1*1000))/100;
+ 17c:	98 e1       	ldi	r25, 0x18	; 24
+ 17e:	49 2e       	mov	r4, r25
+ 180:	9c ef       	ldi	r25, 0xFC	; 252
+ 182:	59 2e       	mov	r5, r25
+ 184:	24 e6       	ldi	r18, 0x64	; 100
+ 186:	82 2e       	mov	r8, r18
+ 188:	91 2c       	mov	r9, r1
+			if(d2) cy2=d2; else cy2=(licznik>999)?0:NIC;
+			d3=(licznik-(d1*1000)-(d2*100))/10;
+ 18a:	3c e9       	ldi	r19, 0x9C	; 156
+ 18c:	23 2e       	mov	r2, r19
+ 18e:	3f ef       	ldi	r19, 0xFF	; 255
+ 190:	33 2e       	mov	r3, r19
+ 192:	4a e0       	ldi	r20, 0x0A	; 10
+ 194:	64 2e       	mov	r6, r20
+ 196:	71 2c       	mov	r7, r1
+			if(d3) cy3=d3; else cy3=(licznik>99)?0:NIC;
+			d4=(licznik-(d1*1000)-(d2*100)-(d3*10));
+ 198:	58 e1       	ldi	r21, 0x18	; 24
+ 19a:	f5 2e       	mov	r15, r21
+ 19c:	6c e9       	ldi	r22, 0x9C	; 156
+ 19e:	e6 2e       	mov	r14, r22
+ 1a0:	76 ef       	ldi	r23, 0xF6	; 246
+ 1a2:	d7 2e       	mov	r13, r23
+ 1a4:	02 c0       	rjmp	.+4      	; 0x1aa <main+0x58>
+			cy4=d4;
+			_delay_ms(10);
+	//		if(licznik>9999) licznik=0;
+			if(!licznik) licznik=6000;
+ 1a6:	e0 e7       	ldi	r30, 0x70	; 112
+ 1a8:	f7 e1       	ldi	r31, 0x17	; 23
+	uint8_t d1,d2,d3,d4;
+
+		//**********************  pêtla g³ówna
+		while(1)
+		{
+			licznik--;
+ 1aa:	31 97       	sbiw	r30, 0x01	; 1
+
+			d1=licznik/1000;
+ 1ac:	cf 01       	movw	r24, r30
+ 1ae:	b5 01       	movw	r22, r10
+ 1b0:	0e 94 34 01 	call	0x268	; 0x268 <__udivmodhi4>
+ 1b4:	16 2f       	mov	r17, r22
+			if(d1) cy1=d1; else cy1=NIC;
+ 1b6:	66 23       	and	r22, r22
+ 1b8:	19 f0       	breq	.+6      	; 0x1c0 <main+0x6e>
+ 1ba:	60 93 63 00 	sts	0x0063, r22
+ 1be:	02 c0       	rjmp	.+4      	; 0x1c4 <main+0x72>
+ 1c0:	00 93 63 00 	sts	0x0063, r16
+			d2=(licznik-(d1*1000))/100;
+ 1c4:	81 2f       	mov	r24, r17
+ 1c6:	90 e0       	ldi	r25, 0x00	; 0
+ 1c8:	84 9d       	mul	r24, r4
+ 1ca:	e0 01       	movw	r28, r0
+ 1cc:	85 9d       	mul	r24, r5
+ 1ce:	d0 0d       	add	r29, r0
+ 1d0:	94 9d       	mul	r25, r4
+ 1d2:	d0 0d       	add	r29, r0
+ 1d4:	11 24       	eor	r1, r1
+ 1d6:	ce 0f       	add	r28, r30
+ 1d8:	df 1f       	adc	r29, r31
+ 1da:	ce 01       	movw	r24, r28
+ 1dc:	b4 01       	movw	r22, r8
+ 1de:	0e 94 34 01 	call	0x268	; 0x268 <__udivmodhi4>
+ 1e2:	46 2f       	mov	r20, r22
+			if(d2) cy2=d2; else cy2=(licznik>999)?0:NIC;
+ 1e4:	66 23       	and	r22, r22
+ 1e6:	19 f0       	breq	.+6      	; 0x1ee <main+0x9c>
+ 1e8:	60 93 64 00 	sts	0x0064, r22
+ 1ec:	09 c0       	rjmp	.+18     	; 0x200 <main+0xae>
+ 1ee:	83 e0       	ldi	r24, 0x03	; 3
+ 1f0:	e8 3e       	cpi	r30, 0xE8	; 232
+ 1f2:	f8 07       	cpc	r31, r24
+ 1f4:	10 f0       	brcs	.+4      	; 0x1fa <main+0xa8>
+ 1f6:	80 e0       	ldi	r24, 0x00	; 0
+ 1f8:	01 c0       	rjmp	.+2      	; 0x1fc <main+0xaa>
+ 1fa:	8a e0       	ldi	r24, 0x0A	; 10
+ 1fc:	80 93 64 00 	sts	0x0064, r24
+			d3=(licznik-(d1*1000)-(d2*100))/10;
+ 200:	24 2f       	mov	r18, r20
+ 202:	30 e0       	ldi	r19, 0x00	; 0
+ 204:	22 9d       	mul	r18, r2
+ 206:	c0 01       	movw	r24, r0
+ 208:	23 9d       	mul	r18, r3
+ 20a:	90 0d       	add	r25, r0
+ 20c:	32 9d       	mul	r19, r2
+ 20e:	90 0d       	add	r25, r0
+ 210:	11 24       	eor	r1, r1
+ 212:	8c 0f       	add	r24, r28
+ 214:	9d 1f       	adc	r25, r29
+ 216:	b3 01       	movw	r22, r6
+ 218:	0e 94 34 01 	call	0x268	; 0x268 <__udivmodhi4>
+ 21c:	86 2f       	mov	r24, r22
+			if(d3) cy3=d3; else cy3=(licznik>99)?0:NIC;
+ 21e:	66 23       	and	r22, r22
+ 220:	19 f0       	breq	.+6      	; 0x228 <main+0xd6>
+ 222:	60 93 65 00 	sts	0x0065, r22
+ 226:	08 c0       	rjmp	.+16     	; 0x238 <main+0xe6>
+ 228:	e4 36       	cpi	r30, 0x64	; 100
+ 22a:	f1 05       	cpc	r31, r1
+ 22c:	10 f0       	brcs	.+4      	; 0x232 <main+0xe0>
+ 22e:	90 e0       	ldi	r25, 0x00	; 0
+ 230:	01 c0       	rjmp	.+2      	; 0x234 <main+0xe2>
+ 232:	9a e0       	ldi	r25, 0x0A	; 10
+ 234:	90 93 65 00 	sts	0x0065, r25
+			d4=(licznik-(d1*1000)-(d2*100)-(d3*10));
+ 238:	1f 9d       	mul	r17, r15
+ 23a:	10 2d       	mov	r17, r0
+ 23c:	11 24       	eor	r1, r1
+ 23e:	1e 0f       	add	r17, r30
+ 240:	4e 9d       	mul	r20, r14
+ 242:	40 2d       	mov	r20, r0
+ 244:	11 24       	eor	r1, r1
+ 246:	14 0f       	add	r17, r20
+ 248:	8d 9d       	mul	r24, r13
+ 24a:	80 2d       	mov	r24, r0
+ 24c:	11 24       	eor	r1, r1
+ 24e:	18 0f       	add	r17, r24
+			cy4=d4;
+ 250:	10 93 62 00 	sts	0x0062, r17
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 254:	8f ef       	ldi	r24, 0xFF	; 255
+ 256:	9b e6       	ldi	r25, 0x6B	; 107
+ 258:	01 97       	sbiw	r24, 0x01	; 1
+ 25a:	f1 f7       	brne	.-4      	; 0x258 <main+0x106>
+ 25c:	00 c0       	rjmp	.+0      	; 0x25e <main+0x10c>
+ 25e:	00 00       	nop
+			_delay_ms(10);
+	//		if(licznik>9999) licznik=0;
+			if(!licznik) licznik=6000;
+ 260:	30 97       	sbiw	r30, 0x00	; 0
+ 262:	09 f4       	brne	.+2      	; 0x266 <main+0x114>
+ 264:	a0 cf       	rjmp	.-192    	; 0x1a6 <main+0x54>
+ 266:	a1 cf       	rjmp	.-190    	; 0x1aa <main+0x58>
+
+00000268 <__udivmodhi4>:
+ 268:	aa 1b       	sub	r26, r26
+ 26a:	bb 1b       	sub	r27, r27
+ 26c:	51 e1       	ldi	r21, 0x11	; 17
+ 26e:	07 c0       	rjmp	.+14     	; 0x27e <__udivmodhi4_ep>
+
+00000270 <__udivmodhi4_loop>:
+ 270:	aa 1f       	adc	r26, r26
+ 272:	bb 1f       	adc	r27, r27
+ 274:	a6 17       	cp	r26, r22
+ 276:	b7 07       	cpc	r27, r23
+ 278:	10 f0       	brcs	.+4      	; 0x27e <__udivmodhi4_ep>
+ 27a:	a6 1b       	sub	r26, r22
+ 27c:	b7 0b       	sbc	r27, r23
+
+0000027e <__udivmodhi4_ep>:
+ 27e:	88 1f       	adc	r24, r24
+ 280:	99 1f       	adc	r25, r25
+ 282:	5a 95       	dec	r21
+ 284:	a9 f7       	brne	.-22     	; 0x270 <__udivmodhi4_loop>
+ 286:	80 95       	com	r24
+ 288:	90 95       	com	r25
+ 28a:	bc 01       	movw	r22, r24
+ 28c:	cd 01       	movw	r24, r26
+ 28e:	08 95       	ret
+
+00000290 <_exit>:
+ 290:	f8 94       	cli
+
+00000292 <__stop_program>:
+ 292:	ff cf       	rjmp	.-2      	; 0x292 <__stop_program>
